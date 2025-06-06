@@ -56,7 +56,6 @@
             # corefonts
             ipafont
           ]
-          ++ fonts
           ++ [
             typst-compile
             typst-fonts
