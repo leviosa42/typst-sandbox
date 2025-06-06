@@ -3,9 +3,15 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ self, flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
+    imports = [
+      inputs.treefmt-nix.flakeModule
+    ];
     systems = import inputs.systems;
     perSystem = { config, lib, pkgs, system, ... }:
       let
@@ -36,6 +42,15 @@
       #   config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       #   ];
       # };
+
+      treefmt = {
+        flakeCheck = true;
+        flakeFormatter = true;
+        programs = {
+          nixfmt.enable = true;
+          typstyle.enable = true;
+        };
+      };
 
       apps = {
         "compile" = {
