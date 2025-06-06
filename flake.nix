@@ -64,10 +64,12 @@
           apps = {
             "compile" = {
               type = "app";
+              meta.description = "Compile Typst files to PDF";
               program = typst-compile;
             };
             "fonts" = {
               type = "app";
+              meta.description = "List available Typst fonts";
               program = typst-fonts;
             };
 
